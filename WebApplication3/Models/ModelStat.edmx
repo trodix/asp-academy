@@ -4,49 +4,9 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="ModelStat.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-  <EntityContainer Name="ModelStatStoreContainer">
-    <EntitySet Name="AcademySet" EntityType="ModelStat.Store.AcademySet" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="StatisticSet" EntityType="ModelStat.Store.StatisticSet" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="AcademyStatistic" Association="ModelStat.Store.AcademyStatistic">
-      <End Role="Academy" EntitySet="AcademySet" />
-      <End Role="Statistic" EntitySet="StatisticSet" />
-    </AssociationSet>
-  </EntityContainer>
-  <EntityType Name="AcademySet">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Area" Type="int" Nullable="false" />
-    <Property Name="Region" Type="nvarchar(max)" Nullable="false" />
-  </EntityType>
-  <EntityType Name="StatisticSet">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="DateStart" Type="datetime" Nullable="false" />
-    <Property Name="DateEnd" Type="datetime" Nullable="false" />
-    <Property Name="Published" Type="bit" Nullable="false" />
-    <Property Name="Score" Type="float" Nullable="false" />
-    <Property Name="AcademyId" Type="int" Nullable="false" />
-  </EntityType>
-  <Association Name="AcademyStatistic">
-    <End Role="Academy" Type="ModelStat.Store.AcademySet" Multiplicity="1" />
-    <End Role="Statistic" Type="ModelStat.Store.StatisticSet" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Academy">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Statistic">
-        <PropertyRef Name="AcademyId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-</Schema></edmx:StorageModels>
+    <Schema Namespace="ModelStat.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="ModelStatStoreContainer" />
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ModelStat" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
@@ -56,6 +16,16 @@
           <AssociationSet Name="AcademyStatistic" Association="ModelStat.AcademyStatistic">
             <End Role="Academy" EntitySet="AcademySet" />
             <End Role="Statistic" EntitySet="StatisticSet" />
+          </AssociationSet>
+          <EntitySet Name="UserSet" EntityType="ModelStat.User" />
+          <AssociationSet Name="AcademyUser" Association="ModelStat.AcademyUser">
+            <End Role="Academy" EntitySet="AcademySet" />
+            <End Role="User" EntitySet="UserSet" />
+          </AssociationSet>
+          <EntitySet Name="GroupSet" EntityType="ModelStat.Group" />
+          <AssociationSet Name="UserGroup" Association="ModelStat.UserGroup">
+            <End Role="User" EntitySet="UserSet" />
+            <End Role="Group" EntitySet="GroupSet" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Academy">
@@ -67,6 +37,7 @@
           <Property Name="Area" Type="ModelStat.Area" Nullable="false" />
           <Property Name="Region" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Statistic" Relationship="ModelStat.AcademyStatistic" FromRole="Academy" ToRole="Statistic" />
+          <NavigationProperty Name="User" Relationship="ModelStat.AcademyUser" FromRole="Academy" ToRole="User" />
         </EntityType>
         <EntityType Name="Statistic">
           <Key>
@@ -98,36 +69,50 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Academy" Relationship="ModelStat.AcademyUser" FromRole="User" ToRole="Academy" />
+          <Property Name="AcademyId" Type="Int32" Nullable="false" />
+          <Property Name="Username" Type="String" Nullable="false" />
+          <Property Name="Email" Type="String" Nullable="false" />
+          <Property Name="Password" Type="String" Nullable="false" />
+          <NavigationProperty Name="Group" Relationship="ModelStat.UserGroup" FromRole="User" ToRole="Group" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <Association Name="AcademyUser">
+          <End Type="ModelStat.Academy" Role="Academy" Multiplicity="1" />
+          <End Type="ModelStat.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Academy">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="AcademyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Role" Type="String" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="ModelStat.UserGroup" FromRole="Group" ToRole="User" />
+        </EntityType>
+        <Association Name="UserGroup">
+          <End Type="ModelStat.User" Role="User" Multiplicity="*" />
+          <End Type="ModelStat.Group" Role="Group" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
     <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="ModelStatStoreContainer" CdmEntityContainer="ModelStatContainer">
-    <EntitySetMapping Name="AcademySet">
-      <EntityTypeMapping TypeName="IsTypeOf(ModelStat.Academy)">
-        <MappingFragment StoreEntitySet="AcademySet">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Area" ColumnName="Area" />
-          <ScalarProperty Name="Region" ColumnName="Region" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="StatisticSet">
-      <EntityTypeMapping TypeName="IsTypeOf(ModelStat.Statistic)">
-        <MappingFragment StoreEntitySet="StatisticSet">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="DateStart" ColumnName="DateStart" />
-          <ScalarProperty Name="DateEnd" ColumnName="DateEnd" />
-          <ScalarProperty Name="Published" ColumnName="Published" />
-          <ScalarProperty Name="Score" ColumnName="Score" />
-          <ScalarProperty Name="AcademyId" ColumnName="AcademyId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-  </EntityContainerMapping>
+    </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->

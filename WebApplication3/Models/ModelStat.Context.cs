@@ -27,5 +27,7 @@ namespace WebApplication3.Models
     
         public virtual DbSet<Academy> AcademySet { get; set; }
         public virtual DbSet<Statistic> StatisticSet { get; set; }
+        public virtual DbSet<User> UserSet { get; set; }
+        public virtual DbSet<Group> GroupSet { get; set; }
     }
 }

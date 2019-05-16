@@ -8,6 +8,10 @@
         <EntityTypeShape EntityType="ModelStat.Academy" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="ModelStat.Statistic" Width="1.5" PointX="5" PointY="1.125" />
         <AssociationConnector Association="ModelStat.AcademyStatistic" />
+        <EntityTypeShape EntityType="ModelStat.User" Width="1.5" PointX="1.375" PointY="4.625" />
+        <AssociationConnector Association="ModelStat.AcademyUser" />
+        <EntityTypeShape EntityType="ModelStat.Group" Width="1.5" PointX="7.125" PointY="5.375" />
+        <AssociationConnector Association="ModelStat.UserGroup" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

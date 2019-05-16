@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 05/16/2019 13:00:53
+-- Date Created: 05/16/2019 13:43:51
 -- Generated from EDMX file: C:\Users\Admin\source\repos\WebApplication3\WebApplication3\Models\ModelStat.edmx
 -- --------------------------------------------------
 
@@ -20,6 +20,15 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_AcademyStatistic]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[StatisticSet] DROP CONSTRAINT [FK_AcademyStatistic];
 GO
+IF OBJECT_ID(N'[dbo].[FK_AcademyUser]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[UserSet] DROP CONSTRAINT [FK_AcademyUser];
+GO
+IF OBJECT_ID(N'[dbo].[FK_UserGroup_User]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[UserGroup] DROP CONSTRAINT [FK_UserGroup_User];
+GO
+IF OBJECT_ID(N'[dbo].[FK_UserGroup_Group]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[UserGroup] DROP CONSTRAINT [FK_UserGroup_Group];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -30,6 +39,15 @@ IF OBJECT_ID(N'[dbo].[AcademySet]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[StatisticSet]', 'U') IS NOT NULL
     DROP TABLE [dbo].[StatisticSet];
+GO
+IF OBJECT_ID(N'[dbo].[UserSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[UserSet];
+GO
+IF OBJECT_ID(N'[dbo].[GroupSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[GroupSet];
+GO
+IF OBJECT_ID(N'[dbo].[UserGroup]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[UserGroup];
 GO
 
 -- --------------------------------------------------
@@ -57,6 +75,31 @@ CREATE TABLE [dbo].[StatisticSet] (
 );
 GO
 
+-- Creating table 'UserSet'
+CREATE TABLE [dbo].[UserSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [AcademyId] int  NOT NULL,
+    [Username] nvarchar(max)  NOT NULL,
+    [Email] nvarchar(max)  NOT NULL,
+    [Password] nvarchar(max)  NOT NULL,
+    [IsActive] bit  NOT NULL
+);
+GO
+
+-- Creating table 'GroupSet'
+CREATE TABLE [dbo].[GroupSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Role] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'UserGroup'
+CREATE TABLE [dbo].[UserGroup] (
+    [User_Id] int  NOT NULL,
+    [Group_Id] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -71,6 +114,24 @@ GO
 ALTER TABLE [dbo].[StatisticSet]
 ADD CONSTRAINT [PK_StatisticSet]
     PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'UserSet'
+ALTER TABLE [dbo].[UserSet]
+ADD CONSTRAINT [PK_UserSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'GroupSet'
+ALTER TABLE [dbo].[GroupSet]
+ADD CONSTRAINT [PK_GroupSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [User_Id], [Group_Id] in table 'UserGroup'
+ALTER TABLE [dbo].[UserGroup]
+ADD CONSTRAINT [PK_UserGroup]
+    PRIMARY KEY CLUSTERED ([User_Id], [Group_Id] ASC);
 GO
 
 -- --------------------------------------------------
@@ -90,6 +151,45 @@ GO
 CREATE INDEX [IX_FK_AcademyStatistic]
 ON [dbo].[StatisticSet]
     ([AcademyId]);
+GO
+
+-- Creating foreign key on [AcademyId] in table 'UserSet'
+ALTER TABLE [dbo].[UserSet]
+ADD CONSTRAINT [FK_AcademyUser]
+    FOREIGN KEY ([AcademyId])
+    REFERENCES [dbo].[AcademySet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AcademyUser'
+CREATE INDEX [IX_FK_AcademyUser]
+ON [dbo].[UserSet]
+    ([AcademyId]);
+GO
+
+-- Creating foreign key on [User_Id] in table 'UserGroup'
+ALTER TABLE [dbo].[UserGroup]
+ADD CONSTRAINT [FK_UserGroup_User]
+    FOREIGN KEY ([User_Id])
+    REFERENCES [dbo].[UserSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Group_Id] in table 'UserGroup'
+ALTER TABLE [dbo].[UserGroup]
+ADD CONSTRAINT [FK_UserGroup_Group]
+    FOREIGN KEY ([Group_Id])
+    REFERENCES [dbo].[GroupSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_UserGroup_Group'
+CREATE INDEX [IX_FK_UserGroup_Group]
+ON [dbo].[UserGroup]
+    ([Group_Id]);
 GO
 
 -- --------------------------------------------------

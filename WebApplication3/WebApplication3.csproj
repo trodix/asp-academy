@@ -145,6 +145,9 @@
     <Compile Include="Models\Area.cs">
       <DependentUpon>ModelStat.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Group.cs">
+      <DependentUpon>ModelStat.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ModelStat.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -161,6 +164,9 @@
       <DependentUpon>ModelStat.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Statistic.cs">
+      <DependentUpon>ModelStat.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\User.cs">
       <DependentUpon>ModelStat.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

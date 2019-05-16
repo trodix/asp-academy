@@ -12,22 +12,17 @@ namespace WebApplication3.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Academy
+    public partial class Group
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Academy()
+        public Group()
         {
-            this.Statistic = new HashSet<Statistic>();
             this.User = new HashSet<User>();
         }
     
         public int Id { get; set; }
-        public string Name { get; set; }
-        public Area Area { get; set; }
-        public string Region { get; set; }
+        public string Role { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Statistic> Statistic { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User> User { get; set; }
     }
