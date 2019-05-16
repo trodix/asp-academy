@@ -136,6 +136,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AcademiesController.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\StatisticsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
