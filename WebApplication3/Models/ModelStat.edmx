@@ -4,9 +4,126 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="ModelStat.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityContainer Name="ModelStatStoreContainer" />
-      </Schema></edmx:StorageModels>
+    <Schema Namespace="ModelStat.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ModelStatStoreContainer">
+    <EntitySet Name="AcademySet" EntityType="ModelStat.Store.AcademySet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="StatisticSet" EntityType="ModelStat.Store.StatisticSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UserSet" EntityType="ModelStat.Store.UserSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GroupSet" EntityType="ModelStat.Store.GroupSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UserGroup" EntityType="ModelStat.Store.UserGroup" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="AcademyStatistic" Association="ModelStat.Store.AcademyStatistic">
+      <End Role="Academy" EntitySet="AcademySet" />
+      <End Role="Statistic" EntitySet="StatisticSet" />
+    </AssociationSet>
+    <AssociationSet Name="AcademyUser" Association="ModelStat.Store.AcademyUser">
+      <End Role="Academy" EntitySet="AcademySet" />
+      <End Role="User" EntitySet="UserSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserGroup_User" Association="ModelStat.Store.FK_UserGroup_User">
+      <End Role="User" EntitySet="UserSet" />
+      <End Role="UserGroup" EntitySet="UserGroup" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserGroup_Group" Association="ModelStat.Store.FK_UserGroup_Group">
+      <End Role="Group" EntitySet="GroupSet" />
+      <End Role="UserGroup" EntitySet="UserGroup" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="AcademySet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Area" Type="int" Nullable="false" />
+    <Property Name="Region" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="StatisticSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DateStart" Type="datetime" Nullable="false" />
+    <Property Name="DateEnd" Type="datetime" Nullable="false" />
+    <Property Name="Published" Type="bit" Nullable="false" />
+    <Property Name="Score" Type="float" Nullable="false" />
+    <Property Name="AcademyId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AcademyId" Type="int" Nullable="false" />
+    <Property Name="Username" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GroupSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Role" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserGroup">
+    <Key>
+      <PropertyRef Name="User_Id" />
+      <PropertyRef Name="Group_Id" />
+    </Key>
+    <Property Name="User_Id" Type="int" Nullable="false" />
+    <Property Name="Group_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="AcademyStatistic">
+    <End Role="Academy" Type="ModelStat.Store.AcademySet" Multiplicity="1" />
+    <End Role="Statistic" Type="ModelStat.Store.StatisticSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Academy">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Statistic">
+        <PropertyRef Name="AcademyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AcademyUser">
+    <End Role="Academy" Type="ModelStat.Store.AcademySet" Multiplicity="1" />
+    <End Role="User" Type="ModelStat.Store.UserSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Academy">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="AcademyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserGroup_User">
+    <End Role="User" Type="ModelStat.Store.UserSet" Multiplicity="1" />
+    <End Role="UserGroup" Type="ModelStat.Store.UserGroup" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserGroup">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserGroup_Group">
+    <End Role="UserGroup" Type="ModelStat.Store.UserGroup" Multiplicity="*" />
+    <End Role="Group" Type="ModelStat.Store.GroupSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Group">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserGroup">
+        <PropertyRef Name="Group_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ModelStat" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
@@ -79,8 +196,8 @@
           <Property Name="Username" Type="String" Nullable="false" />
           <Property Name="Email" Type="String" Nullable="false" />
           <Property Name="Password" Type="String" Nullable="false" />
-          <NavigationProperty Name="Group" Relationship="ModelStat.UserGroup" FromRole="User" ToRole="Group" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Group" Relationship="ModelStat.UserGroup" FromRole="User" ToRole="Group" />
         </EntityType>
         <Association Name="AcademyUser">
           <End Type="ModelStat.Academy" Role="Academy" Multiplicity="1" />
@@ -112,7 +229,58 @@
     <edmx:Mappings>
     <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="ModelStatStoreContainer" CdmEntityContainer="ModelStatContainer">
-    </EntityContainerMapping>
+    <EntitySetMapping Name="AcademySet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelStat.Academy)">
+        <MappingFragment StoreEntitySet="AcademySet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Area" ColumnName="Area" />
+          <ScalarProperty Name="Region" ColumnName="Region" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StatisticSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelStat.Statistic)">
+        <MappingFragment StoreEntitySet="StatisticSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="DateStart" ColumnName="DateStart" />
+          <ScalarProperty Name="DateEnd" ColumnName="DateEnd" />
+          <ScalarProperty Name="Published" ColumnName="Published" />
+          <ScalarProperty Name="Score" ColumnName="Score" />
+          <ScalarProperty Name="AcademyId" ColumnName="AcademyId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelStat.User)">
+        <MappingFragment StoreEntitySet="UserSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="AcademyId" ColumnName="AcademyId" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GroupSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelStat.Group)">
+        <MappingFragment StoreEntitySet="GroupSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Role" ColumnName="Role" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="UserGroup" TypeName="ModelStat.UserGroup" StoreEntitySet="UserGroup">
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="User_Id" />
+      </EndProperty>
+      <EndProperty Name="Group">
+        <ScalarProperty Name="Id" ColumnName="Group_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->

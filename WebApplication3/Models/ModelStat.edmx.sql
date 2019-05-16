@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 05/16/2019 13:43:51
+-- Date Created: 05/16/2019 14:54:26
 -- Generated from EDMX file: C:\Users\Admin\source\repos\WebApplication3\WebApplication3\Models\ModelStat.edmx
 -- --------------------------------------------------
 
@@ -17,38 +17,11 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[FK_AcademyStatistic]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[StatisticSet] DROP CONSTRAINT [FK_AcademyStatistic];
-GO
-IF OBJECT_ID(N'[dbo].[FK_AcademyUser]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[UserSet] DROP CONSTRAINT [FK_AcademyUser];
-GO
-IF OBJECT_ID(N'[dbo].[FK_UserGroup_User]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[UserGroup] DROP CONSTRAINT [FK_UserGroup_User];
-GO
-IF OBJECT_ID(N'[dbo].[FK_UserGroup_Group]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[UserGroup] DROP CONSTRAINT [FK_UserGroup_Group];
-GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[AcademySet]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[AcademySet];
-GO
-IF OBJECT_ID(N'[dbo].[StatisticSet]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[StatisticSet];
-GO
-IF OBJECT_ID(N'[dbo].[UserSet]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[UserSet];
-GO
-IF OBJECT_ID(N'[dbo].[GroupSet]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[GroupSet];
-GO
-IF OBJECT_ID(N'[dbo].[UserGroup]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[UserGroup];
-GO
 
 -- --------------------------------------------------
 -- Creating all tables

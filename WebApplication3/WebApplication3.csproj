@@ -230,8 +230,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Groups\Create.cshtml" />
     <Content Include="Views\Groups\Delete.cshtml" />
@@ -243,16 +241,16 @@
     <Content Include="Views\Users\Details.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
-    <Content Include="Views\Academies\Create.cshtml" />
-    <Content Include="Views\Academies\Delete.cshtml" />
-    <Content Include="Views\Academies\Details.cshtml" />
-    <Content Include="Views\Academies\Edit.cshtml" />
-    <Content Include="Views\Academies\Index.cshtml" />
     <Content Include="Views\Statistics\Create.cshtml" />
     <Content Include="Views\Statistics\Delete.cshtml" />
     <Content Include="Views\Statistics\Details.cshtml" />
     <Content Include="Views\Statistics\Edit.cshtml" />
     <Content Include="Views\Statistics\Index.cshtml" />
+    <Content Include="Views\Academies\Create.cshtml" />
+    <Content Include="Views\Academies\Delete.cshtml" />
+    <Content Include="Views\Academies\Details.cshtml" />
+    <Content Include="Views\Academies\Edit.cshtml" />
+    <Content Include="Views\Academies\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
