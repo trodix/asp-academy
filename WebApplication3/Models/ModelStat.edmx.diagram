@@ -4,8 +4,10 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="177c3a483018401b91454206fc2db8e7" Name="Diagram1" >
+      <Diagram DiagramId="177c3a483018401b91454206fc2db8e7" Name="Diagram1" DisplayType="true" >
         <EntityTypeShape EntityType="ModelStat.Academy" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ModelStat.Statistic" Width="1.5" PointX="5" PointY="1.125" />
+        <AssociationConnector Association="ModelStat.AcademyStatistic" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
